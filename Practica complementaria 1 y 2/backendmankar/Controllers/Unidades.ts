@@ -5,7 +5,7 @@ import { Unidad } from "../models";
 // Controlador para buscar unidades
 const BuscarUnidades = async (req: Request, res: Response) => {
   try {
-    const { Limite = 10, Desde = 0 } = req.query;
+    const { Limite = 100, Desde = 0 } = req.query;
     const query = { ESTADO: true };
 
     // Usar Promise.all para realizar ambas consultas de manera concurrente

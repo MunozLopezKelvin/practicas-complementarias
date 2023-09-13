@@ -26,7 +26,7 @@ const CrearRol = async (req: Request, res: Response) => {
 
 const BuscarRoles = async (req: Request, res: Response) => {
   try {
-    const { Limite = 10, Desde = 0 } = req.query;
+    const { Limite = 100, Desde = 0 } = req.query;
     const query = { ESTADO: true };
 
     const [total, datos]: [number, Roles[]] = await Promise.all([

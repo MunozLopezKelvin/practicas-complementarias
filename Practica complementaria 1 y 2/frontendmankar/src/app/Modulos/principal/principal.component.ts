@@ -11,7 +11,8 @@ import { Mantenimientos, RespMantenimientos, TiposMantenimientos, RespTiposMante
 export class PrincipalComponent implements OnInit {
 
   public placasUsuario: string[] = [];
-  public tiposMantenimiento: TiposMantenimientos[] = [];
+  /* public tiposMantenimiento: TiposMantenimientos[] = []; */
+  public tiposMantenimiento: any[] = [];
   public Usuario: any = {};
   public Mantenimiento: Mantenimientos[] = [];
   public Mantenimientong: boolean = false;
@@ -39,7 +40,6 @@ export class PrincipalComponent implements OnInit {
 
   ngOnInit(): void {
     this.obtenerDNIUsuario();
-    this.getMantenimientos();
     this.getTiposMantenimiento();
     // Resto de tu código
   }
@@ -55,11 +55,16 @@ export class PrincipalComponent implements OnInit {
   // Obtiene la lista de tipos de mantenimiento
   getTiposMantenimiento() {
     this.serviceServices.getTiposMantenimientos().subscribe(
-      (data: RespTiposMantenimientos) => {
-        if (data && Array.isArray(data.tiposMantenimientos) && data.tiposMantenimientos.length > 0) {
-          this.tiposMantenimiento = data.tiposMantenimientos;
-          // Configura el valor inicial si lo deseas
-          this.selectedTipoMantenimiento = this.tiposMantenimiento[0]?.TIPOSMANTE_ID;
+      (data) => {
+        console.log(this.nuevoMantenimiento.UNIDADES_PLACA);
+        console.log('kkk')
+        if (data && Array.isArray(data.datos) && data.datos.length > 0) {
+          // Aquí asumimos que data.datos es un arreglo de objetos con TIPOSMANTE_ID y TIPOMANTE_DESCRIPCION
+          this.tiposMantenimiento = data.datos;
+          console.log(this.tiposMantenimiento);
+  
+          // Configura el valor inicial si lo deseas (por ejemplo, el primer elemento del arreglo)
+          this.selectedTipoMantenimiento = this.tiposMantenimiento[0].TIPOSMANTE_ID;
         } else {
           console.error('La estructura de la respuesta del servicio es incorrecta.');
         }
@@ -104,7 +109,7 @@ export class PrincipalComponent implements OnInit {
           UNIDADES_PLACA: this.Usuario.UNIDADES_PLACA,
           TIPOSMANTE_ID: this.selectedTipoMantenimiento || 0,
         };
-        this.getMantenimientos();
+       
       },
       (error) => {
         console.error('Error al agregar mantenimiento: ', error);
@@ -112,21 +117,6 @@ export class PrincipalComponent implements OnInit {
     );
   }
 
-  // Obtiene la lista de mantenimientos
-  getMantenimientos() {
-    this.serviceServices.getMantenimientos().subscribe(
-      (data: RespMantenimientos) => {
-        if (data && Array.isArray(data.mantenimientos)) {
-          this.Mantenimiento = data.mantenimientos;
-        } else {
-          console.error('La respuesta del servicio no es un arreglo válido.');
-        }
-      },
-      (error) => {
-        console.error('Error al obtener la lista de mantenimientos: ', error);
-      }
-    );
-  }
 
   // Resto de tus funciones
 }

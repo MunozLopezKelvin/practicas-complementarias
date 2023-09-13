@@ -4,7 +4,7 @@ import { Ruta } from "../models";
 
 const BuscarRutas = async (req: Request, res: Response) => {
   try {
-    const { Limite = 10, Desde = 0 } = req.query;
+    const { Limite = 100, Desde = 0 } = req.query;
     const query = { ESTADO: true };
 
     const [total, datos]: [number, Rutas[]] = await Promise.all([
