@@ -50,6 +50,7 @@ export class VermantenimientosComponent {
   ngOnInit(): void {
     // Inicializa la fecha en el formato deseado al cargar la página
     this.nuevoMantenimiento.MANTENIMIENTO_FECHA = new Date(this.formatearFecha(new Date()));
+
     this.obtenerDNIUsuario();
     this.getMantenimientos();
     this.getTiposMantenimiento();

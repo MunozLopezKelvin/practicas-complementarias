@@ -56,45 +56,18 @@ const BuscarMantenimientos = async (req: Request, res: Response) => {
       Mantenimiento.countDocuments(query),
       Mantenimiento.find(query)
         .skip(Number(Desde))
-        .limit(Number(Limite)),
+        .limit(Number(Limite)).sort({ MANTENIMIENTO_ID: 1 }),
     ]);
 
-    // Devolver una respuesta JSON con los datos encontrados
     res.json({
       total,
       datos,
     });
   } catch (error) {
-    // En caso de error, manejarlo y devolver una respuesta de error
     console.error("Error al buscar mantenimientos:", error);
     res.status(500).json({ error: "Error interno del servidor" });
   }
-};// Controlador para obtener un mantenimiento específico por MANTENIMIENTO_ID
-/* const BuscarMantenimientoPorID = async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params; // Obtiene el MANTENIMIENTO_ID del mantenimiento de los parámetros de la solicitud
-
-    // Realiza la búsqueda del mantenimiento por MANTENIMIENTO_ID excluyendo los mantenimientos con estado FALSE
-    const mantenimientoEncontrado: Mantenimientos | null =
-      await Mantenimiento.findOne({
-        MANTENIMIENTO_ID: id,
-        ESTADO: true,
-      });
-
-    if (!mantenimientoEncontrado) {
-      // Si no se encuentra el mantenimiento, devuelve un mensaje de error
-      return res.status(404).json({ mensaje: "Mantenimiento no encontrado" });
-    }
-
-    // Si se encuentra el mantenimiento, lo devuelve en la respuesta JSON
-    res.json(mantenimientoEncontrado);
-
-  } catch (error) {
-    // En caso de error, manejarlo y devolver una respuesta de error
-    console.error("Error al buscar el mantenimiento por MANTENIMIENTO_ID:", error);
-    res.status(500).json({ error: "Error interno del servidor" });
-  }
-}; */
+};
 
 const BuscarMantenimientoPorID = async (req: Request, res: Response) => {
   try {
